@@ -29,9 +29,9 @@ LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7); // inicializa 
 RTC_DS1307 RTC;     // inicializa el modulo RTC
 
 //************* BOTONES ***************//
-int P1=5; // Boton SET MENU
-int P2=4; // Boton +
-int P3=3; // Boton -
+int BTN_MENU = 5; // Boton SET MENU
+int BTN_PLUS = 4; // Boton +
+int BTN_MINUS = 3; // Boton -
 
 //************ VARIABLES **************//
 int r_diaSemana;  // almacena el resultado del dia de la semana calculad
@@ -100,9 +100,9 @@ Horario horario3[] = {
 };
 ///////////////////////////////// Void Setup() ////////////////////////////////////
 void setup(){
-  pinMode(P1,INPUT);
-  pinMode(P2,INPUT);
-  pinMode(P3,INPUT);
+  pinMode(BTN_MENU,INPUT);
+  pinMode(BTN_PLUS,INPUT);
+  pinMode(BTN_MINUS,INPUT);
   pinMode(activador, OUTPUT);
   Serial.begin(9600);
   Wire.begin();
@@ -318,7 +318,7 @@ void horario(const Horario *horarios, int numHorarios) {
 /*-------------------------------- DisplayDateTime -------------------------------*/
 void DisplayDateTime (){
   DateTime now = RTC.now();   // Obtiene la fecha y hora del RTC
-  if(digitalRead(P1)){
+  if(digitalRead(BTN_MENU)){
     menu=1;
     delay(debounce);
   }
@@ -336,7 +336,7 @@ void DisplayDateTime (){
   lcd.print(now.minute(), DEC);
   minuto=now.minute();
   lcd.print(":");
-  if(digitalRead(P1)){
+  if(digitalRead(BTN_MENU)){
     menu=1;
     delay(debounce);
   }
@@ -352,7 +352,7 @@ void DisplayDateTime (){
   lcd.print(now.day(), DEC);
   dia=now.day();
   lcd.print("/");
-  if(digitalRead(P1)){
+  if(digitalRead(BTN_MENU)){
     menu=1;
     delay(debounce);
   }
@@ -364,7 +364,7 @@ void DisplayDateTime (){
   lcd.print("/");
   lcd.print(now.year() - 2000, DEC);
   anio=now.year();
-  if(digitalRead(P1)){
+  if(digitalRead(BTN_MENU)){
     menu=1;
     delay(debounce);
   }
@@ -378,8 +378,8 @@ void DisplaySetHour(){
   lcd.print("Conf Hora:");
   lcd.setCursor(0,1);
   lcd.print(hora,DEC);
-  while(!digitalRead(P1)){
-  if(digitalRead(P2)==HIGH){
+  while(!digitalRead(BTN_MENU)){
+  if(digitalRead(BTN_PLUS)==HIGH){
     if(hora==23){
       hora=0;
     }else{
@@ -387,7 +387,7 @@ void DisplaySetHour(){
     }
     delay(debounce);  
   }
-  if(digitalRead(P3)==HIGH){
+  if(digitalRead(BTN_MINUS)==HIGH){
     if(hora==0){
       hora=23;
     }else{
@@ -413,8 +413,8 @@ void DisplaySetMinute(){
   lcd.print("Conf Minutos:");
   lcd.setCursor(0,1);
   lcd.print(minuto,DEC);
-  while(!digitalRead(P1)){
-    if(digitalRead(P2)==HIGH){
+  while(!digitalRead(BTN_MENU)){
+    if(digitalRead(BTN_PLUS)==HIGH){
       if (minuto==59){
         minuto=0;
       }else{
@@ -422,7 +422,7 @@ void DisplaySetMinute(){
       }
       delay(debounce);
     }
-     if(digitalRead(P3)==HIGH){
+     if(digitalRead(BTN_MINUS)==HIGH){
       if (minuto==0){
         minuto=59;
       }else{
@@ -447,11 +447,11 @@ void DisplaySetYear(){
   lcd.print("Conf Anio:");
   lcd.setCursor(0,1);
   lcd.print(anio,DEC);
-  while(!digitalRead(P1)){
-    if(digitalRead(P2)==HIGH){    
+  while(!digitalRead(BTN_MENU)){
+    if(digitalRead(BTN_PLUS)==HIGH){    
       anio=anio+1;
     }
-     if(digitalRead(P3)==HIGH){
+     if(digitalRead(BTN_MINUS)==HIGH){
       anio=anio-1;
     }
     delay(debounce);
@@ -472,15 +472,15 @@ void DisplaySetMonth(){
   lcd.print("Conf Mes:");
   lcd.setCursor(0,1);
   lcd.print(mes,DEC);
-  while(!digitalRead(P1)){
-    if(digitalRead(P2)==HIGH){
+  while(!digitalRead(BTN_MENU)){
+    if(digitalRead(BTN_PLUS)==HIGH){
       if (mes==12){
         mes=1;
       }else{
         mes=mes+1;
       }
     }
-    if(digitalRead(P3)==HIGH){
+    if(digitalRead(BTN_MINUS)==HIGH){
       if (mes==1){
         mes=12;
       }else{
@@ -504,15 +504,15 @@ void DisplaySetDay()
 // Setting the day
   lcd.clear();
   delay(debounce);
-  while(!digitalRead(P1)){    
-    if(digitalRead(P2)==HIGH){
+  while(!digitalRead(BTN_MENU)){    
+    if(digitalRead(BTN_PLUS)==HIGH){
       if (dia==31){
         dia=1;
       }else{
         dia=dia+1;
       }
     }
-    if(digitalRead(P3)==HIGH){
+    if(digitalRead(BTN_MINUS)==HIGH){
       if (dia==1){
         dia=31;
       }else{
