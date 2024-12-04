@@ -8,26 +8,12 @@ Este proyecto implementa un sistema de timbre automatizado utilizando un Arduino
 - Modularidad para horarios de diferentes turnos o días.
 
 ## Conexiones del Hardware
-### RTC DS1307
-```cpp
-GND  ->  GND
-VCC  ->  5V
-SCL  ->  A5
-SDA  ->  A4
-```
-### Módulo Relé
-```cpp
-GND  ->  GND
-VCC  ->  5V
-IN   ->  Pin 13
-```
-### Pantalla LCD I2C
-```cpp
-GND   ->   GND
-VCC   ->   5V
-SCL   ->   SCL
-SDA   ->   SDA
-```
+| RTC DS1307             | Módulo Relé             | Pantalla LCD I2C         |
+|------------------------|-------------------------|--------------------------|
+| **GND** → GND          | **GND** → GND           | **GND** → GND            |
+| **VCC** → 5V           | **VCC** → 5V            | **VCC** → 5V             |
+| **SCL** → A5           | **IN**  → Pin 13        | **SCL** → SCL            |
+| **SDA** → A4           |                         | **SDA** → SDA            |
 
 ## Configuración Inicial
 
