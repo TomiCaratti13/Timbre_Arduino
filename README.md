@@ -1,5 +1,4 @@
 # Timbre Automatizado para Colegio
-<hr>
 Este proyecto implementa un sistema de timbre automatizado utilizando un Arduino UNO, un módulo RTC DS1307, un LCD con interfaz I2C y un módulo relé. Está diseñado para colegios que operan en cualquier turno.
 
 ## Características
@@ -7,8 +6,6 @@ Este proyecto implementa un sistema de timbre automatizado utilizando un Arduino
 - Función de ajuste de fecha y hora mediante botones.
 - Visualización de información en una pantalla LCD.
 - Modularidad para horarios de diferentes turnos o días.
-
-<br>
 
 ## Conexiones del Hardware
 ### RTC DS1307
@@ -31,7 +28,6 @@ VCC   ->   5V
 SCL   ->   SCL
 SDA   ->   SDA
 ```
-<br>
 
 ## Configuración Inicial
 
@@ -43,7 +39,6 @@ SDA   ->   SDA
 >    - Comenta la línea `// RTC.adjust(DateTime(__DATE__, __TIME__));`
 >    - Vuelve a subir el código para evitar que el RTC se reajuste cada vez que se reinicie el Arduino.
 
-<br>
 
 ## Librerías Necesarias
 Asegúrate de instalar las siguientes librerías antes de cargar el código:
@@ -52,7 +47,6 @@ Asegúrate de instalar las siguientes librerías antes de cargar el código:
 - `RTClib.h` (para el módulo RTC DS1307)
 - `LiquidCrystal_I2C.h` (para el LCD)
 
-<br>
 
 ## Programación de Horarios
 El programa permite definir hasta 16 timbres por turno. Cada horario se configura mediante la estructura:
@@ -97,7 +91,6 @@ DisplaySetYear()    // Ajusta el año
 DisplaySetMonth()   // Ajusta el mes
 DisplaySetDay()     // Ajusta el día
 ```
-<br>
 
 ## Uso
 - Configura el hardware como se describe en la sección de conexiones
@@ -106,11 +99,10 @@ DisplaySetDay()     // Ajusta el día
 - Observa el funcionamiento en tiempo real en el LCD
 
 
-> [!NOTE]<br>
+> [!NOTE]
 > Este programa está diseñado para operar únicamente en días laborales (lunes aviernes). Los fines de semana se omiten los horarios.<br>
 > Se incluye un sistema de debounce para los botones, ajustable mediante la constante `debounce`.
 
-<br>
 <hr>
 
 #### Créditos:
