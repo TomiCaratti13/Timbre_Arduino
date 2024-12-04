@@ -5,26 +5,20 @@
                                         
 .        Conexion RTC:  Arduino UNO    GND-->GND  VCC-->5V  SCL-->A5  SDA-->A4
 .        Conexion Rele: Arduino UNO    GND-->GND  VCC-->5V  IN-->13
-.        Conexion LCD:  Arduino UNO    RS = 12; E = 11; D4 = 10; D5 = 9; D6 = 8; D7 = 7; (Sin I2C)
+.        Conexion LCD_i2c:  Arduino UNO    GND-->GND  VCC-->5V  SCL-->SCL  SDA-->SCL
 
 .        NOTA: se debe cargar dos veces este programa   1. Con la linea RTC.adjust(DateTime(__DATE__, __TIME__));
 .                                                       2. Sin esa linea con "//" delante de la lina,
 .                                                          para que quede en comnetario y no se cargue nuevamente
 ------------------------------------------------------------------------------------------------------------------------------------------------------*/
 //************** LIBRERIAS ******************//
-#include <Wire.h>
-#include <RTClib.h>
-#include <LiquidCrystal.h>
+#include <Wire.h> 
+#include "RTClib.h"
+#include <LiquidCrystal_I2C.h>
 
 //************** LCD - RTC ****************//
-// const int LCD_RS = 12;
-// const int LCD_E = 11;
-// const int LCD_D4 = 10;
-// const int LCD_D5 = 9;
-// const int LCD_D6 = 8;
-// const int LCD_D7 = 7;
 
-LiquidCrystal lcd(12, 11, 10, 9, 8, 7); // inicializa el LCD (LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7) 16X2
+LiquidCrystal_I2C lcd(0x27,16,2); // inicializa la interfaz I2C del LCD 16x2
 
 RTC_DS1307 RTC;     // inicializa el modulo RTC
 
@@ -65,17 +59,16 @@ Se pueden programar 16 timbres por horario
 Horario horario1[] = {
   {16, 0, 0, true, " ENTRADA"},
   {16, 30, 0, false, "MEDIO MOD"},
-  {17, 10, 0, false, " RECREO"},
-  {17, 25, 0, false, "FIN RECREO"},
+  {17, 10, 0, true, " RECREO"},
+  {17, 25, 0, true, "FIN RECREO"},
   {18, 5, 0, false, "MEDIO MOD"},
-  {18, 40, 0, false, " RECREO"},
-  {19, 0, 0, false, "FIN RECREO"},
+  {18, 40, 0, true, " RECREO"},
+  {19, 0, 0, true, "FIN RECREO"},
   {19, 40, 0, false, "MEDIO MOD"},
-  {20, 15, 0, false, " RECREO"},
-  {20, 20, 0, false, "FIN RECREO"},
+  {20, 15, 0, true, " RECREO"},
+  {20, 20, 0, true, "FIN RECREO"},
   {20, 55, 0, false, "MEDIO MOD"},
-  {21, 30, 0, false, "  SALIDA"},
-  {21, 31, 0, true}
+  {21, 30, 0, true, "  SALIDA"},
 };
 Horario horario2[] = {
   // Agrega los horarios para el segundo conjunto aquí
@@ -115,7 +108,8 @@ void setup(){
   //RTC.adjust(DateTime(__DATE__, __TIME__));
   /* Lee la fecha y hora del PC (Solo en la primera carga) se usa solo en la configuracion inicial, luego se pone como comentario.
   Se vuelve a cargar el programa sin esta linea */
-  lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight(); 
   lcd.setCursor (0,0);
   lcd.print(" COLEGIO ISABEL ");
   lcd.setCursor (0,1);
@@ -169,7 +163,6 @@ void loop(){
   Serial.print(':');
   Serial.print(now.second(), DEC);  // Segundos
   Serial.println();
-
   segundo=now.second();
   minuto=now.minute();
   hora=now.hour();
@@ -180,7 +173,7 @@ void loop(){
     horario(horario3, sizeof(horario3) / sizeof(horario3[0]));
    }
   digitalWrite(activador, LOW);
-  delay(100);
+  delay(200);
 }
 /*-------------------------------- Funcion que activa el Timbre -------------------------------*/
 void activar_t(int largo_t, String name){
@@ -538,7 +531,9 @@ void StoreAgg(){
   lcd.print("GUARDANDO");
   lcd.setCursor(0,1);
   lcd.print("CONFIGURACION");
+
   RTC.adjust(DateTime(anio,mes,dia,hora,minuto,0));
+
   delay(800);
   lcd.clear();
 }
